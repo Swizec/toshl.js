@@ -22,9 +22,24 @@ describe('OAuth2',function() {
             function (e, access_token, refresh_token, results){
                 console.log(arguments);
                 console.log('bearer: ',access_token);
+                console.log('refresh: ', refresh_token);
 
                 done();
             });
+    });
+
+    it.skip('refreshes token', function (done) {
+        var Toshl = require('../lib/toshl.js').Toshl;
+
+        var toshl = new Toshl(secrets.keys.test_bearer);
+
+        toshl.refresh_auth(secrets.keys.client_id, secrets.keys.consumer_secret, secrets.keys.test_refresh, function (error, tokens) {
+            
+            console.log(tokens);
+            tokens.should.be.ok();
+
+            done();
+        });
     });
 
 });
@@ -36,11 +51,23 @@ describe('Me', function () {
         var toshl = new Toshl(secrets.keys.test_bearer);
 
         toshl.me(function (error, me) {
+            console.log(error);
             me.should.have.keys(['id', 'email', 'first_name', 'last_name',
                                  'joined', 'pro', 'pro_until', 'main_currency',
                                  'active_currency', 'start_day', 'links', 'extra']);
 
             done();
         });
+    });
+
+    it('updates user data', function (done) {
+        var toshl = new Toshl(secrets.keys.test_bearer);
+
+        toshl.me({active_currency: 'USD'},
+                 function (error, me) {
+                     me.active_currency.currency.should.eql('USD');
+
+                     done();
+                 });
     });
 });
