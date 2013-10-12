@@ -1,7 +1,7 @@
 {
   "name": "toshl",
   "version": "0.0.0",
-  "description": "Library for accessing Toshl API.",
+  "description": "Toshl API client library",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
@@ -20,6 +20,7 @@
     "url": "https://github.com/Swizec/toshl.js/issues"
   },
   "dependencies": {
-    "mocha": "~1.13.0"
+    "mocha": "~1.13.0",
+    "oauth": "~0.9.10"
   }
 }
