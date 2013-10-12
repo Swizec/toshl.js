@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "mocha": "~1.13.0",
-    "oauth": "~0.9.10"
+    "oauth": "~0.9.10",
+    "should": "~2.0.1"
   }
 }
