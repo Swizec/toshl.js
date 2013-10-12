@@ -28,3 +28,19 @@ describe('OAuth2',function() {
     });
 
 });
+
+describe('Me', function () {
+    var Toshl = require('../lib/toshl.js').Toshl;
+
+    it('gets user data', function (done) {
+        var toshl = new Toshl(secrets.keys.test_bearer);
+
+        toshl.me(function (error, me) {
+            me.should.have.keys(['id', 'email', 'first_name', 'last_name',
+                                 'joined', 'pro', 'pro_until', 'main_currency',
+                                 'active_currency', 'start_day', 'links', 'extra']);
+
+            done();
+        });
+    });
+});
