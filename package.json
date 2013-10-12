@@ -1,0 +1,25 @@
+{
+  "name": "toshl",
+  "version": "0.0.0",
+  "description": "Library for accessing Toshl API.",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Swizec/toshl.js"
+  },
+  "keywords": [
+    "toshl",
+    "api"
+  ],
+  "author": "Swizec Teller",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Swizec/toshl.js/issues"
+  },
+  "dependencies": {
+    "mocha": "~1.13.0"
+  }
+}
