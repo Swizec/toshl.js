@@ -81,4 +81,15 @@ describe("Months", function () {
             done();
         });
     });
+
+    it("fetches N months", function (done) {
+        var toshl = new Toshl(secrets.keys.test_bearer);
+
+        toshl.months(5, function (error, months) {
+            should.not.exist(error);
+            months.should.have.lengthOf(5);
+
+            done();
+        });
+    });
 });
