@@ -149,3 +149,50 @@ describe("Months", function () {
         });
     });
 });
+
+describe("Month", function () {
+    var Toshl = require('../lib/toshl.js').Toshl;
+
+    it("fetches a month", function (done) {
+        var toshl = new Toshl(secrets.keys.test_bearer);
+
+        toshl.month(2013, 10, function (error, month) {
+            should.not.exist(error);
+            month.should.be.an.instanceOf(Object);
+            month.from.should.eql("2013-10-01");
+            month.to.should.eql("2013-11-01");
+
+            done();
+        });
+    });
+
+    it("fetches month with tags", function (done) {
+        var toshl = new Toshl(secrets.keys.test_bearer);
+
+        // deeply testing this would start testing Toshl, we assume they do the right thing
+        // we only compare that sums are different
+        toshl.month(2013, 10, function (error, month_all) {
+            toshl.month(2013, 10, ['fixed', 'gov'], function (error, month) {
+                should.not.exist(error);
+                month_all.expenses.count.should.not.eql(month.expenses.count);
+                
+                done();
+            });
+        });
+    });
+
+    it("fetches month with negative tags", function (done) {
+        var toshl = new Toshl(secrets.keys.test_bearer);
+
+        toshl.month(2013, 10, ['food'], function (error, month_pos) {
+            toshl.month(2013, 10, ['!food'], function (error, month_neg) {
+                should.not.exist(error);
+                month_pos.expenses.amount.should.not.eql(month_neg.expenses.amount);
+                
+                done();
+            });
+        });
+    });
+
+
+});
