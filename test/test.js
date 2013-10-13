@@ -112,4 +112,22 @@ describe("Months", function () {
             });
         });
     });
+
+    it("fetches months with negative tags", function (done) {
+        var toshl = new Toshl(secrets.keys.test_bearer);
+
+        toshl.months(['food'], function (error, months_pos) {
+            toshl.months(['!food'], function (error, months_neg) {
+                should.not.exist(error);
+
+                for (var i=0; i<months_neg.length; i++) {
+                    months_neg[i].expenses.amount.should.not.eql(
+                        months_pos[i].expenses.amount
+                    );
+                }
+                
+                done();
+            });
+        });
+    });
 });
