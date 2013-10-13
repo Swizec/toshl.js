@@ -249,4 +249,25 @@ describe("Expenses", function () {
             done();
         });
     });
+
+    it("allows manual config", function (done) {
+        var toshl = new Toshl(secrets.keys.test_bearer);
+
+        var from = moment().subtract('days', 7),
+            to = moment().subtract('days', 2);                
+
+        toshl.expenses({from: from,
+                        to: to,
+                        tags: ['food']}, function (error, expenses) {
+                            
+                            expenses.forEach(function (expense) {
+                                var date = moment(expense.date);
+
+                                expense.tags.should.include('food');
+                                date.should.be.within(from, to);
+                            });
+
+                            done();
+                        });
+    });
 });
