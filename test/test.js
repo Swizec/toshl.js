@@ -220,4 +220,21 @@ describe("Expenses", function () {
             done();
         });
     });
+
+    it("fetches dated expenses", function (done) {
+        var toshl = new Toshl(secrets.keys.test_bearer);
+
+        var from = moment().subtract('days', 7),
+            to = moment().subtract('days', 2);
+
+        toshl.expenses(from, to, function (error, expenses) {
+            expenses.forEach(function (expense) {
+                var date = moment(expense.date);
+                
+                date.should.be.within(from, to);
+            });
+
+            done();
+        });
+    });
 });
