@@ -209,4 +209,15 @@ describe("Expenses", function () {
             done();
         });
     });
+
+    it("fetches N expenses", function (done) {
+        var toshl = new Toshl(secrets.keys.test_bearer);
+
+        toshl.expenses(10, function (error, expenses) {
+            should.not.exist(error);
+            expenses.should.have.lengthOf(10);
+
+            done();
+        });
+    });
 });
