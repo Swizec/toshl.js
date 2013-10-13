@@ -33,7 +33,7 @@ describe('OAuth2',function() {
 
         var toshl = new Toshl(secrets.keys.test_bearer);
 
-        toshl.refresh_auth(secrets.keys.client_id, secrets.keys.consumer_secret, secrets.keys.test_refresh, function (error, tokens) {
+        toshl.refresh_token(secrets.keys.client_id, secrets.keys.consumer_secret, secrets.keys.test_refresh, function (error, tokens) {
             
             console.log(tokens);
             tokens.should.be.ok();
