@@ -4,39 +4,30 @@ var should = require('should');
 var secrets = require('../secrets.js');
 
 describe('OAuth2',function() {
-    var OAuth = require('OAuth');
+    var OAuth = require('OAuth'),
+        Toshl = require('../lib/toshl.js').Toshl;
     
     // this test is very dependant on test_access_code freshness
     it.skip('gets access token', function(done){
-        var OAuth2 = OAuth.OAuth2;
-        var oauth2 = new OAuth2(secrets.keys.client_id,
-                                secrets.keys.consumer_secret,
-                                'https://toshl.com/', 
-                                null,
-                                'oauth2/token', 
-                                null);
+        var toshl = new Toshl(secrets.keys.client_id,
+                              secrets.keys.consumer_secret);
 
-        oauth2.getOAuthAccessToken(
-            secrets.keys.test_access_code,
-            {grant_type: 'authorization_code'},
-            function (e, access_token, refresh_token, results){
-                console.log(arguments);
-                console.log('bearer: ',access_token);
-                console.log('refresh: ', refresh_token);
+        toshl.get_token(secrets.keys.test_access_code, function (error, tokens) {
+            console.log(error);
+            console.log(tokens);
+            tokens.should.have.keys(['access_token', 'refresh_token']);
 
-                done();
-            });
+            done();
+        });
     });
 
     it.skip('refreshes token', function (done) {
-        var Toshl = require('../lib/toshl.js').Toshl;
+        var toshl = new Toshl(secrets.keys.client_id,
+                              secrets.keys.consumer_secret);
 
-        var toshl = new Toshl(secrets.keys.test_bearer);
-
-        toshl.refresh_token(secrets.keys.client_id, secrets.keys.consumer_secret, secrets.keys.test_refresh, function (error, tokens) {
-            
+        toshl.refresh_token(secrets.keys.test_refresh, function (error, tokens) {
             console.log(tokens);
-            tokens.should.be.ok();
+            tokens.should.have.keys(['access_token', 'refresh_token']);
 
             done();
         });
@@ -51,7 +42,6 @@ describe('Me', function () {
         var toshl = new Toshl(secrets.keys.test_bearer);
 
         toshl.me(function (error, me) {
-            console.log(error);
             me.should.have.keys(['id', 'email', 'first_name', 'last_name',
                                  'joined', 'pro', 'pro_until', 'main_currency',
                                  'active_currency', 'start_day', 'links', 'extra']);
@@ -60,7 +50,7 @@ describe('Me', function () {
         });
     });
 
-    it('updates user data', function (done) {
+    it.skip('updates user data', function (done) {
         var toshl = new Toshl(secrets.keys.test_bearer);
 
         toshl.me({active_currency: 'USD'},
