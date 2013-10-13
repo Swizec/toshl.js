@@ -92,4 +92,24 @@ describe("Months", function () {
             done();
         });
     });
+
+    it("fetches months with tags", function (done) {
+        var toshl = new Toshl(secrets.keys.test_bearer);
+
+        // deeply testing this would start testing Toshl, we assume they do the right thing
+        // we only compare that sums are different
+        toshl.months(function (error, months_all) {
+            toshl.months(['fixed', 'gov'], function (error, months) {
+                should.not.exist(error);
+
+                for (var i=0; i<months.length; i++) {
+                    months[i].expenses.count.should.not.eql(
+                        months_all[i].expenses.count
+                    );
+                }
+                
+                done();
+            });
+        });
+    });
 });
