@@ -130,4 +130,22 @@ describe("Months", function () {
             });
         });
     });
+
+    it("allows manual settings", function (done) {
+        var toshl = new Toshl(secrets.keys.test_bearer);
+
+        toshl.months({page: 1, per_page: 10}, function (error, months1) {
+            months1.should.have.lengthOf(10);
+
+            toshl.months({page: 2, per_page: 10}, function (error, months2) {
+                months2.should.have.lengthOf(10);
+                months2.should.not.eql(months1);
+
+                toshl.months({tags: ['food']}, function (error, months3) {
+                    should.not.exist(error);
+                    done();
+                });
+            });
+        });
+    });
 });
