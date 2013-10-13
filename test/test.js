@@ -15,6 +15,8 @@ describe('OAuth2',function() {
         toshl.get_token(secrets.keys.test_access_code, function (error, tokens) {
             console.log(error);
             console.log(tokens);
+
+            should.not.exist(error);
             tokens.should.have.keys(['access_token', 'refresh_token']);
 
             done();
@@ -27,6 +29,8 @@ describe('OAuth2',function() {
 
         toshl.refresh_token(secrets.keys.test_refresh, function (error, tokens) {
             console.log(tokens);
+
+            should.not.exist(error);
             tokens.should.have.keys(['access_token', 'refresh_token']);
 
             done();
@@ -42,6 +46,7 @@ describe('Me', function () {
         var toshl = new Toshl(secrets.keys.test_bearer);
 
         toshl.me(function (error, me) {
+            should.not.exist(error);
             me.should.have.keys(['id', 'email', 'first_name', 'last_name',
                                  'joined', 'pro', 'pro_until', 'main_currency',
                                  'active_currency', 'start_day', 'links', 'extra']);
@@ -55,9 +60,25 @@ describe('Me', function () {
 
         toshl.me({active_currency: 'USD'},
                  function (error, me) {
+                     should.not.exist(error);
                      me.active_currency.currency.should.eql('USD');
 
                      done();
                  });
+    });
+});
+
+describe("Months", function () {
+    var Toshl = require('../lib/toshl.js').Toshl;
+
+    it("fetches months", function (done) {
+        var toshl = new Toshl(secrets.keys.test_bearer);
+
+        toshl.months(function (error, months) {
+            should.not.exist(error);
+            months.should.be.an.instanceOf(Array);
+
+            done();
+        });
     });
 });
