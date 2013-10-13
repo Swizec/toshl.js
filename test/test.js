@@ -194,5 +194,19 @@ describe("Month", function () {
         });
     });
 
+});
 
+describe("Expenses", function () {
+    var Toshl = require('../lib/toshl.js').Toshl;
+
+    it("fetches expenses", function (done) {
+        var toshl = new Toshl(secrets.keys.test_bearer);
+
+        toshl.expenses(function (error, expenses) {
+            should.not.exist(error);
+            expenses.should.be.instanceOf(Array);
+
+            done();
+        });
+    });
 });
