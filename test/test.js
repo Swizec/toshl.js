@@ -237,4 +237,16 @@ describe("Expenses", function () {
             done();
         });
     });
+
+    it("fetches tagged expenses", function (done) {
+        var toshl = new Toshl(secrets.keys.test_bearer);
+
+        toshl.expenses(['food'], function (error, expenses) {
+            expenses.forEach(function (expense) {
+                expense.tags.should.include('food');
+            });
+
+            done();
+        });
+    });
 });
